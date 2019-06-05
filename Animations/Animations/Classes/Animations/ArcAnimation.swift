@@ -61,30 +61,47 @@ class ArcAnimation: NSObject {
     }
 
     /* Translate layers at y axis */
-    fileprivate func createPositionAnimation(forDirection direction: Direction) -> CABasicAnimation {
+    fileprivate func createPositionAnimation(forDirection direction: Direction, forLayer layer: CALayer, completion: (() -> Void)?) {
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock({
+            print("position Animation Done")
+            completion?()
+        })
+        
         let positionAnimation = CABasicAnimation(keyPath: "position.y")
         positionAnimation.duration = 1
+        positionAnimation.fillMode = .forwards
+        positionAnimation.isRemovedOnCompletion = false
+        positionAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         positionAnimation.fromValue = 50;
         switch direction {
         case .top:
             positionAnimation.toValue = 40;
+            layer.add(positionAnimation, forKey: "topPosition")
         default:
             positionAnimation.toValue = 60;
+            layer.add(positionAnimation, forKey: "bottomPosition")
         }
-        positionAnimation.fillMode = .forwards
-        positionAnimation.isRemovedOnCompletion = false
-        positionAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        return positionAnimation
+        CATransaction.commit()
+
     }
     
     /* Rotate layer on it's axis/ xy plane */
     
-    fileprivate func createRotationAnimation() -> CABasicAnimation {
+    fileprivate func createRotationAnimation(forLayer layer: CALayer, completion: (() -> Void)?) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock({
+            print("Rotation Animation Done")
+            completion?()
+        })
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
         rotationAnimation.fromValue = 0.0
         rotationAnimation.toValue = CGFloat(Float.pi * 2.0)
-        rotationAnimation.duration = 4
-        return rotationAnimation
+        rotationAnimation.duration = 1
+        //rotationAnimation.delegate = self
+        layer.add(rotationAnimation, forKey: "rotation")
+        CATransaction.commit()
     }
     
     func deg2rad(_ number: Double) -> CGFloat {
@@ -95,9 +112,10 @@ class ArcAnimation: NSObject {
 extension ArcAnimation {
     func startAnimating() {
         DispatchQueue.main.async {
-            self.topLayer.add(self.createPositionAnimation(forDirection: .top), forKey: "movetopY")
-            self.bottomLayer.add(self.createPositionAnimation(forDirection: .bottom), forKey: "movebottomY")
-            self.containerView.layer.add(self.createRotationAnimation(), forKey: "rotate")
+            self.createRotationAnimation(forLayer: self.containerView.layer, completion: {
+                self.createPositionAnimation(forDirection: .top, forLayer: self.topLayer, completion: nil)
+                self.createPositionAnimation(forDirection: .bottom, forLayer: self.bottomLayer, completion: nil)
+            })
         }
     }
 }
