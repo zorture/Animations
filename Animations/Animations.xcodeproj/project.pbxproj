@@ -17,6 +17,7 @@
 		B9F8439C22A56C5E002593D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9F8439B22A56C5E002593D5 /* Images.xcassets */; };
 		B9F8439E22A5B289002593D5 /* ArcAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F8439D22A5B289002593D5 /* ArcAnimation.swift */; };
 		B9F843A122A7795F002593D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F843A022A7795F002593D5 /* CoreGraphics.framework */; };
+		B9F843A522A8BA1A002593D5 /* FanButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843A422A8BA1A002593D5 /* FanButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		B9F8439B22A56C5E002593D5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B9F8439D22A5B289002593D5 /* ArcAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArcAnimation.swift; sourceTree = "<group>"; };
 		B9F843A022A7795F002593D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B9F843A422A8BA1A002593D5 /* FanButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		B9F8439722A5644C002593D5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B9F843A222A89EA1002593D5 /* Animated UI */,
 				B9F8439822A5644C002593D5 /* Animations */,
 			);
 			path = Classes;
@@ -131,6 +134,22 @@
 				B9F843A022A7795F002593D5 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B9F843A222A89EA1002593D5 /* Animated UI */ = {
+			isa = PBXGroup;
+			children = (
+				B9F843A322A8B738002593D5 /* FanButton */,
+			);
+			path = "Animated UI";
+			sourceTree = "<group>";
+		};
+		B9F843A322A8B738002593D5 /* FanButton */ = {
+			isa = PBXGroup;
+			children = (
+				B9F843A422A8BA1A002593D5 /* FanButton.swift */,
+			);
+			path = FanButton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,7 +198,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = Nanu;
+				ORGANIZATIONNAME = "Kanwar Zorawar Singh Rana";
 				TargetAttributes = {
 					B9F8437322A563FE002593D5 = {
 						CreatedOnToolsVersion = 10.1;
@@ -236,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9F8437A22A563FE002593D5 /* ViewController.swift in Sources */,
+				B9F843A522A8BA1A002593D5 /* FanButton.swift in Sources */,
 				B9F8439E22A5B289002593D5 /* ArcAnimation.swift in Sources */,
 				B9F8437822A563FE002593D5 /* AppDelegate.swift in Sources */,
 				B9F8439A22A564AB002593D5 /* Pulsating.swift in Sources */,
@@ -406,7 +426,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Nanu.Animations;
+				PRODUCT_BUNDLE_IDENTIFIER = Kanwar.Animations;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -423,7 +443,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Nanu.Animations;
+				PRODUCT_BUNDLE_IDENTIFIER = Kanwar.Animations;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -442,7 +462,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Nanu.AnimationsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = Kanwar.AnimationsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -462,7 +482,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Nanu.AnimationsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = Kanwar.AnimationsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
