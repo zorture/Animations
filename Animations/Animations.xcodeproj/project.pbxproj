@@ -18,6 +18,7 @@
 		B9F8439E22A5B289002593D5 /* ArcAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F8439D22A5B289002593D5 /* ArcAnimation.swift */; };
 		B9F843A122A7795F002593D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F843A022A7795F002593D5 /* CoreGraphics.framework */; };
 		B9F843A522A8BA1A002593D5 /* FanButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843A422A8BA1A002593D5 /* FanButton.swift */; };
+		B9F843A722A99355002593D5 /* FanBlade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843A622A99355002593D5 /* FanBlade.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		B9F8439D22A5B289002593D5 /* ArcAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArcAnimation.swift; sourceTree = "<group>"; };
 		B9F843A022A7795F002593D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B9F843A422A8BA1A002593D5 /* FanButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanButton.swift; sourceTree = "<group>"; };
+		B9F843A622A99355002593D5 /* FanBlade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanBlade.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				B9F843A422A8BA1A002593D5 /* FanButton.swift */,
+				B9F843A622A99355002593D5 /* FanBlade.swift */,
 			);
 			path = FanButton;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9F843A722A99355002593D5 /* FanBlade.swift in Sources */,
 				B9F8437A22A563FE002593D5 /* ViewController.swift in Sources */,
 				B9F843A522A8BA1A002593D5 /* FanButton.swift in Sources */,
 				B9F8439E22A5B289002593D5 /* ArcAnimation.swift in Sources */,

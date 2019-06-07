@@ -28,7 +28,10 @@ class FanButton: UIView {
         setupFanButton()
     }
     
-    //common func to init our view
+    func addBlades(_ blade: FanBlade) {
+        super.addSubview(blade)
+    }
+    
     private func setupFanButton() {
         setupMainView()
         addMainButton()
@@ -42,19 +45,18 @@ class FanButton: UIView {
     }
     
     private func addMainButton() {
-        let mainButton = UIButton(type: .custom)
-        self.addSubview(mainButton)
-        mainButton.backgroundColor = .orange
-        setSizeLayout(forView: mainButton, withConstant: 50)
-        setOriginLayout(forView: mainButton, withConstant: -5)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-            self.addBehavior(forView: mainButton)
+        let mainBlade = FanBlade(onView: self, ofType: .main)
+        mainBlade.delegate = self
+        mainBlade.direction = .bottom
+        mainBlade.setupBlade()
+        //animator = UIDynamicAnimator(referenceView: mainBlade)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            self.addBehavior(forBlade: mainBlade)
         })
-        
     }
     
-    func addBehavior(forView view: UIView) {
-        addSnapBehavior(toView: view, toPoint: CGPoint(x: view.center.x, y: view.center.y - 60))
+    func addBehavior(forBlade blade: FanBlade) {
+        addSnapBehavior(toView: blade, toPoint: CGPoint(x: blade.center.x, y: blade.center.y - blade.snapDistance))
     }
     
     private func setSizeLayout(forView view: UIView, withConstant constant: CGFloat){
@@ -83,10 +85,14 @@ class FanButton: UIView {
         let snapBehavior = UISnapBehavior(item: view, snapTo: point)
         snapBehavior.damping = 0.3
         snapBehavior.action = {
-            self.bottomLC.constant = 0
+            //self.bottomLC.constant = 0
         }
         animator.addBehavior(snapBehavior)
     }
     
 }
 
+extension FanButton: FanBladeDelegate {
+    func fabBlade(didSelected fanBlade: FanBlade) {
+    }
+}
