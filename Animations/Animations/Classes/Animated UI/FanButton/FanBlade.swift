@@ -8,35 +8,26 @@
 
 import UIKit
 
-enum BladeType {
-    case main
-    case other
-}
-
-enum SpinDirection {
-    case left
-    case right
-    case top
-    case bottom
-}
 
 protocol FanBladeDelegate {
-    func fabBlade(didSelected fanBlade: FanBlade)
+    func fanBlade(didSelected fanBlade: FanBlade)
+    func fanBlade(didPause fanBlade: FanBlade)
+    func fanBlade(didResume fanBlade: FanBlade)
 }
 
 class FanBlade: UIButton {
     
-    let type: BladeType!
     var directionLC: NSLayoutConstraint!
-    var snapDistance: CGFloat = 60
-    var direction: SpinDirection = .bottom
+    var distance: CGFloat = -60
     var delegate: FanBladeDelegate?
+    let direction: ElasticDirection!
     fileprivate let parentView: UIView!
     
-    required init(onView view: UIView, ofType type: BladeType) {
-        self.type = type
+    required init(onView view: UIView, ElasticDirection direction: ElasticDirection) {
+        self.direction = direction
         self.parentView = view
         super.init(frame: .zero)
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -46,42 +37,50 @@ class FanBlade: UIButton {
     
     func setupBlade() {
         parentView.addSubview(self)
+        
         backgroundColor = .orange
         self.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        setSizeLayout(forView: self, withConstant: 50)
-        setOriginLayout(forView: self, withConstant: -5)
+        setSizeLayout(withConstant: 50)
+        parentView.layoutSubviews()
+        self.setOriginLayout(withDirection: self.direction, andConstant: -10)
+        parentView.layoutSubviews()
+        let animator = Animator(forView: self)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            animator.addSpringAnimation(fromDirection: self.direction, withDeflection: -70, completion: { value in
+            })
+        })
         
     }
     
     @objc func buttonAction(){
         guard let delegate = self.delegate else { return }
-        delegate.fabBlade(didSelected: self)
+        delegate.fanBlade(didSelected: self)
     }
     
     
-    private func setSizeLayout(forView view: UIView, withConstant constant: CGFloat){
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalToConstant: constant).isActive = true
-        view.heightAnchor.constraint(equalToConstant: constant).isActive = true
+    private func setSizeLayout(withConstant constant: CGFloat){
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let widthLC = self.widthAnchor.constraint(equalToConstant: constant)
+        let heightLC =  self.heightAnchor.constraint(equalToConstant: constant)
+        NSLayoutConstraint.activate([widthLC, heightLC])
     }
     
-    private func setOriginLayout(forView view: UIView, withConstant constant: CGFloat){
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: constant).isActive = true
+    private func setOriginLayout(withDirection direction: ElasticDirection, andConstant constant: CGFloat){
+        self.translatesAutoresizingMaskIntoConstraints = false
         switch direction {
         case .top:
-            directionLC = view.topAnchor.constraint(equalTo: parentView.topAnchor, constant: constant + snapDistance)
+            self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: constant).isActive = true
+            self.topAnchor.constraint(equalTo: parentView.topAnchor, constant: distance).isActive = true
         case .bottom:
-            directionLC = view.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant + snapDistance)
+            self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: constant).isActive = true
+            self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: abs(distance)).isActive = true
         case .left:
-            directionLC = view.leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: constant + snapDistance)
+            self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: abs(distance)).isActive = true
+            self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant).isActive = true
         case .right:
-            directionLC = view.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: constant + snapDistance)
+            self.leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: distance).isActive = true
+            self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant).isActive = true
         }
-        
-        directionLC.isActive = true
-        //bottomView = view
     }
     
-
 }

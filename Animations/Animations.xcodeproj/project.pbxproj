@@ -19,6 +19,7 @@
 		B9F843A122A7795F002593D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F843A022A7795F002593D5 /* CoreGraphics.framework */; };
 		B9F843A522A8BA1A002593D5 /* FanButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843A422A8BA1A002593D5 /* FanButton.swift */; };
 		B9F843A722A99355002593D5 /* FanBlade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843A622A99355002593D5 /* FanBlade.swift */; };
+		B9F843AC22AC1A96002593D5 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843AB22AC1A96002593D5 /* Animator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		B9F843A022A7795F002593D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B9F843A422A8BA1A002593D5 /* FanButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanButton.swift; sourceTree = "<group>"; };
 		B9F843A622A99355002593D5 /* FanBlade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanBlade.swift; sourceTree = "<group>"; };
+		B9F843AB22AC1A96002593D5 /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 		B9F843A222A89EA1002593D5 /* Animated UI */ = {
 			isa = PBXGroup;
 			children = (
+				B9F843AA22AC1A96002593D5 /* Animator */,
 				B9F843A322A8B738002593D5 /* FanButton */,
 			);
 			path = "Animated UI";
@@ -154,6 +157,15 @@
 			);
 			path = FanButton;
 			sourceTree = "<group>";
+		};
+		B9F843AA22AC1A96002593D5 /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				B9F843AB22AC1A96002593D5 /* Animator.swift */,
+			);
+			name = Animator;
+			path = Animations/Classes/Animator;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -262,6 +274,7 @@
 				B9F843A522A8BA1A002593D5 /* FanButton.swift in Sources */,
 				B9F8439E22A5B289002593D5 /* ArcAnimation.swift in Sources */,
 				B9F8437822A563FE002593D5 /* AppDelegate.swift in Sources */,
+				B9F843AC22AC1A96002593D5 /* Animator.swift in Sources */,
 				B9F8439A22A564AB002593D5 /* Pulsating.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

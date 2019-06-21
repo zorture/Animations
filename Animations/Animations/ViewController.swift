@@ -12,17 +12,12 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var arcButton: UIButton!
     @IBOutlet weak var btcButton: UIButton!
-    var snapButton: FanButton!
+    var fanButton: FanButton!
     var arcAnim: ArcAnimation!
     override func viewDidLoad() {
         super.viewDidLoad()
         arcAnim = ArcAnimation(animateForView: arcButton)
-        snapButton = FanButton(frame: .zero)
-        view.addSubview(snapButton)
-        
-        snapButton.translatesAutoresizingMaskIntoConstraints = false
-        snapButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        snapButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true        
+        fanButton = FanButton(onView: view)
     }
 
     @IBAction func btcHandler(_ sender: UIButton) {

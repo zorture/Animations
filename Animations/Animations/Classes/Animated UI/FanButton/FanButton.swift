@@ -8,91 +8,90 @@
 
 import UIKit
 
-class FanButton: UIView {
+protocol FanButtonDelegate {
+    func fanButton(_ fanButton: FanButton, didSelectBlade fanBlade: FanBlade)
+}
+
+protocol FanButtonDataSource {
+    func numberOfBlades(in fanButton: FanButton) -> Int
+}
+
+class FanButton {
     
-    fileprivate var bottomView: UIView!
-    var animator: UIDynamicAnimator!
+    
     var bottomLC: NSLayoutConstraint!
-    
-    //initWithFrame to init view from code
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        bottomView = self
-        animator = UIDynamicAnimator(referenceView: self)
+    var heightLC: NSLayoutConstraint!
+    let size: CGFloat = 70
+    var dataSource: FanButtonDataSource?
+    var delegate: FanButtonDelegate?
+    fileprivate var mainView: UIView!
+    fileprivate var parentView: UIView!
+    fileprivate var bottomView: UIView!
+
+    init(onView view: UIView) {
+        parentView = view
+        mainView = UIView.init(frame: .zero)
+        parentView.addSubview(mainView)
         setupFanButton()
     }
-    
-    //initWithCode to init view from xib or storyboard
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupFanButton()
-    }
-    
-    func addBlades(_ blade: FanBlade) {
-        super.addSubview(blade)
-    }
-    
+
     private func setupFanButton() {
         setupMainView()
-        addMainButton()
+        addButton(fromDirection: .right)
     }
     
     //common func to init our view
     private func setupMainView() {
-        self.backgroundColor = .red
-        self.clipsToBounds = true
-        setSizeLayout(forView: self, withConstant: 70)
+        mainView.backgroundColor = .red
+        //mainView.clipsToBounds = true
+        setSizeLayout(withConstant: size)
     }
     
-    private func addMainButton() {
-        let mainBlade = FanBlade(onView: self, ofType: .main)
+    private func addButton(fromDirection direction: ElasticDirection) {
+        let mainBlade = FanBlade(onView: mainView, ElasticDirection: direction)
         mainBlade.delegate = self
-        mainBlade.direction = .bottom
         mainBlade.setupBlade()
-        //animator = UIDynamicAnimator(referenceView: mainBlade)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            self.addBehavior(forBlade: mainBlade)
-        })
     }
     
-    func addBehavior(forBlade blade: FanBlade) {
-        addSnapBehavior(toView: blade, toPoint: CGPoint(x: blade.center.x, y: blade.center.y - blade.snapDistance))
+    private func setSizeLayout(withConstant constant: CGFloat){
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let widthLC = mainView.widthAnchor.constraint(equalToConstant: constant)
+        heightLC = mainView.heightAnchor.constraint(equalToConstant: constant)
+        let leftLC = mainView.leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: 10)
+        let bottomLC = mainView.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: -50)
+        NSLayoutConstraint.activate([widthLC,heightLC,leftLC,bottomLC])
     }
     
-    private func setSizeLayout(forView view: UIView, withConstant constant: CGFloat){
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalToConstant: constant).isActive = true
-        view.heightAnchor.constraint(equalToConstant: constant).isActive = true
+    private func handle(rootBlade blade: FanBlade) {
+        heightLC.constant += size
+        addButton(fromDirection: .left)
+//        guard let dataSource = dataSource else { return }
+//        let count = dataSource.numberOfBlades(in: self)
+//        if count > 0 {
+//            addButton()
+//        }
     }
     
-    private func setOriginLayout(forView view: UIView, withConstant constant: CGFloat){
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.rightAnchor.constraint(equalTo: self.rightAnchor, constant: constant).isActive = true
-        bottomLC = view.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: constant + 60)
-        bottomLC.isActive = true
-        bottomView = view
-    }
-
-    func addAttachmentBehavior(toItem item: UIDynamicItem, toPoint point: CGPoint){
-        animator.removeAllBehaviors()
-        let attachmentBehavior = UIAttachmentBehavior(item: item, attachedToAnchor: point)
-        attachmentBehavior.damping = 0.1
-        animator.addBehavior(attachmentBehavior)
-    }
-
-    func addSnapBehavior(toView view: UIView, toPoint point: CGPoint){
-        animator.removeAllBehaviors()
-        let snapBehavior = UISnapBehavior(item: view, snapTo: point)
-        snapBehavior.damping = 0.3
-        snapBehavior.action = {
-            //self.bottomLC.constant = 0
-        }
-        animator.addBehavior(snapBehavior)
+    private func handle(childBlade blade: FanBlade) {
+        
     }
     
 }
 
 extension FanButton: FanBladeDelegate {
-    func fabBlade(didSelected fanBlade: FanBlade) {
+    
+    func fanBlade(didSelected fanBlade: FanBlade) {
+        //fanBlade.type == BladeType.root ? handle(rootBlade: fanBlade) : handle(childBlade: fanBlade)
+        handle(rootBlade: fanBlade)
     }
+    
+    func fanBlade(didPause fanBlade: FanBlade) {
+        
+    }
+    
+    func fanBlade(didResume fanBlade: FanBlade) {
+        
+    }
+
 }
