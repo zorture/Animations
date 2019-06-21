@@ -12,10 +12,12 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var arcButton: UIButton!
     @IBOutlet weak var btcButton: UIButton!
+    var fanButton: FanButton!
     var arcAnim: ArcAnimation!
     override func viewDidLoad() {
         super.viewDidLoad()
         arcAnim = ArcAnimation(animateForView: arcButton)
+        fanButton = FanButton(onView: view)
     }
 
     @IBAction func btcHandler(_ sender: UIButton) {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B987515122BD61C200968FA1 /* FanBladeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B987515022BD61C200968FA1 /* FanBladeLayout.swift */; };
 		B9F8437822A563FE002593D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F8437722A563FE002593D5 /* AppDelegate.swift */; };
 		B9F8437A22A563FE002593D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F8437922A563FE002593D5 /* ViewController.swift */; };
 		B9F8437D22A563FE002593D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9F8437B22A563FE002593D5 /* Main.storyboard */; };
@@ -17,6 +18,9 @@
 		B9F8439C22A56C5E002593D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9F8439B22A56C5E002593D5 /* Images.xcassets */; };
 		B9F8439E22A5B289002593D5 /* ArcAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F8439D22A5B289002593D5 /* ArcAnimation.swift */; };
 		B9F843A122A7795F002593D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F843A022A7795F002593D5 /* CoreGraphics.framework */; };
+		B9F843A522A8BA1A002593D5 /* FanButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843A422A8BA1A002593D5 /* FanButton.swift */; };
+		B9F843A722A99355002593D5 /* FanBlade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843A622A99355002593D5 /* FanBlade.swift */; };
+		B9F843AC22AC1A96002593D5 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F843AB22AC1A96002593D5 /* Animator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B987515022BD61C200968FA1 /* FanBladeLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanBladeLayout.swift; sourceTree = "<group>"; };
 		B9F8437422A563FE002593D5 /* Animations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Animations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9F8437722A563FE002593D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9F8437922A563FE002593D5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -44,6 +49,9 @@
 		B9F8439B22A56C5E002593D5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B9F8439D22A5B289002593D5 /* ArcAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArcAnimation.swift; sourceTree = "<group>"; };
 		B9F843A022A7795F002593D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B9F843A422A8BA1A002593D5 /* FanButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanButton.swift; sourceTree = "<group>"; };
+		B9F843A622A99355002593D5 /* FanBlade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanBlade.swift; sourceTree = "<group>"; };
+		B9F843AB22AC1A96002593D5 /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +119,7 @@
 		B9F8439722A5644C002593D5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B9F843A222A89EA1002593D5 /* Animated UI */,
 				B9F8439822A5644C002593D5 /* Animations */,
 			);
 			path = Classes;
@@ -132,6 +141,34 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		B9F843A222A89EA1002593D5 /* Animated UI */ = {
+			isa = PBXGroup;
+			children = (
+				B9F843AA22AC1A96002593D5 /* Animator */,
+				B9F843A322A8B738002593D5 /* FanButton */,
+			);
+			path = "Animated UI";
+			sourceTree = "<group>";
+		};
+		B9F843A322A8B738002593D5 /* FanButton */ = {
+			isa = PBXGroup;
+			children = (
+				B9F843A422A8BA1A002593D5 /* FanButton.swift */,
+				B9F843A622A99355002593D5 /* FanBlade.swift */,
+				B987515022BD61C200968FA1 /* FanBladeLayout.swift */,
+			);
+			path = FanButton;
+			sourceTree = "<group>";
+		};
+		B9F843AA22AC1A96002593D5 /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				B9F843AB22AC1A96002593D5 /* Animator.swift */,
+			);
+			name = Animator;
+			path = Animations/Classes/Animator;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -179,7 +216,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = Nanu;
+				ORGANIZATIONNAME = "Kanwar Zorawar Singh Rana";
 				TargetAttributes = {
 					B9F8437322A563FE002593D5 = {
 						CreatedOnToolsVersion = 10.1;
@@ -235,9 +272,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9F843A722A99355002593D5 /* FanBlade.swift in Sources */,
 				B9F8437A22A563FE002593D5 /* ViewController.swift in Sources */,
+				B987515122BD61C200968FA1 /* FanBladeLayout.swift in Sources */,
+				B9F843A522A8BA1A002593D5 /* FanButton.swift in Sources */,
 				B9F8439E22A5B289002593D5 /* ArcAnimation.swift in Sources */,
 				B9F8437822A563FE002593D5 /* AppDelegate.swift in Sources */,
+				B9F843AC22AC1A96002593D5 /* Animator.swift in Sources */,
 				B9F8439A22A564AB002593D5 /* Pulsating.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,7 +447,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Nanu.Animations;
+				PRODUCT_BUNDLE_IDENTIFIER = Kanwar.Animations;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -423,7 +464,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Nanu.Animations;
+				PRODUCT_BUNDLE_IDENTIFIER = Kanwar.Animations;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -442,7 +483,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Nanu.AnimationsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = Kanwar.AnimationsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -462,7 +503,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Nanu.AnimationsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = Kanwar.AnimationsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
