@@ -27,6 +27,7 @@ class FanButton {
     fileprivate var mainView: UIView!
     fileprivate var parentView: UIView!
     fileprivate var bottomView: UIView!
+    fileprivate var mainBlade: FanBlade!
 
     init(onView view: UIView) {
         parentView = view
@@ -37,7 +38,7 @@ class FanButton {
 
     private func setupFanButton() {
         setupMainView()
-        addButton(fromDirection: .right)
+        addRootButton(fromDirection: .bottom)
     }
     
     //common func to init our view
@@ -47,10 +48,19 @@ class FanButton {
         setSizeLayout(withConstant: size)
     }
     
-    private func addButton(fromDirection direction: ElasticDirection) {
-        let mainBlade = FanBlade(onView: mainView, ElasticDirection: direction)
+    private func addRootButton(fromDirection direction: ElasticDirection) {
+        mainBlade = FanBlade(onView: mainView, ElasticDirection: direction)
+        mainBlade.backgroundColor = .orange
         mainBlade.delegate = self
         mainBlade.setupBlade()
+    }
+    
+    private func addButton(withBottomBlade blade: FanBlade, fromDirection direction: ElasticDirection) -> FanBlade {
+        let blade = FanBlade(onView: mainView, withBottomBlade: blade, fromElasticDirection: .right)
+        blade.backgroundColor = .green
+        blade.delegate = self
+        blade.setupBlade()
+        return blade
     }
     
     private func setSizeLayout(withConstant constant: CGFloat){
@@ -64,13 +74,15 @@ class FanButton {
     }
     
     private func handle(rootBlade blade: FanBlade) {
-        heightLC.constant += size
-        addButton(fromDirection: .left)
-//        guard let dataSource = dataSource else { return }
-//        let count = dataSource.numberOfBlades(in: self)
-//        if count > 0 {
-//            addButton()
-//        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            self.heightLC.constant += self.size
+            let blade = self.addButton(withBottomBlade: self.mainBlade, fromDirection: .right)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                self.heightLC.constant += self.size
+                let blade = self.addButton(withBottomBlade: blade, fromDirection: .right)
+            })
+        })
     }
     
     private func handle(childBlade blade: FanBlade) {

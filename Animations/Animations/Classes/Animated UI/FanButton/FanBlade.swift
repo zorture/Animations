@@ -22,12 +22,20 @@ class FanBlade: UIButton {
     var delegate: FanBladeDelegate?
     let direction: ElasticDirection!
     fileprivate let parentView: UIView!
+    fileprivate var bottomBlade: FanBlade?
+    fileprivate var bladeLayout = FanBladeLayout()
+
     
     required init(onView view: UIView, ElasticDirection direction: ElasticDirection) {
         self.direction = direction
         self.parentView = view
         super.init(frame: .zero)
-
+        
+    }
+    
+    convenience init(onView view: UIView, withBottomBlade blade: FanBlade, fromElasticDirection direction: ElasticDirection) {
+        self.init(onView: view, ElasticDirection: direction)
+        self.bottomBlade = blade
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -38,7 +46,7 @@ class FanBlade: UIButton {
     func setupBlade() {
         parentView.addSubview(self)
         
-        backgroundColor = .orange
+        //backgroundColor = .orange
         self.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         setSizeLayout(withConstant: 50)
         parentView.layoutSubviews()
@@ -46,7 +54,17 @@ class FanBlade: UIButton {
         parentView.layoutSubviews()
         let animator = Animator(forView: self)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            animator.addSpringAnimation(fromDirection: self.direction, withDeflection: -70, completion: { value in
+            self.bladeLayout.disableAllConstraints()
+            animator.addSpringAnimation(fromDirection: self.direction, withDeflection: 10, completion: { value in
+                
+                if self.direction == .bottom {
+                    self.bladeLayout.bottomLC?.constant = -10
+                    
+                } else if self.direction == .right {
+                    self.bladeLayout.rightLC?.constant = -10
+                    
+                }
+                self.bladeLayout.enableAllConstraints()
             })
         })
         
@@ -73,14 +91,23 @@ class FanBlade: UIButton {
             self.topAnchor.constraint(equalTo: parentView.topAnchor, constant: distance).isActive = true
         case .bottom:
             self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: constant).isActive = true
-            self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: abs(distance)).isActive = true
+            bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: abs(distance))
+            bladeLayout.bottomLC?.isActive = true
         case .left:
-            self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: abs(distance)).isActive = true
-            self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant).isActive = true
-        case .right:
             self.leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: distance).isActive = true
             self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant).isActive = true
+        case .right:
+            bladeLayout.rightLC = self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: abs(distance))
+            bladeLayout.rightLC?.isActive = true
+            if let bottomBlade = self.bottomBlade {
+                bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: bottomBlade.topAnchor, constant: -20)
+            } else {
+                bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant)
+            }
+            bladeLayout.bottomLC?.isActive = true
+
         }
     }
     
 }
+

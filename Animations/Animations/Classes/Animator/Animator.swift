@@ -43,20 +43,24 @@ class Animator: NSObject {
         var transformY: CGFloat = 0.0
         switch direction {
         case .top:
-            transformY -= deflection
+            transformY += deflection
+            transformX += 10
         case .bottom:
             transformY += deflection
+            transformX += 10
         case .left:
             transformX += deflection
+            transformY += 10
         case .right:
-            transformX -= deflection
+            transformX += deflection
+            transformY += 10
         }
         
-        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
             guard let view = self.childView else { return }
-            view.transform = CGAffineTransform(translationX: transformX, y: transformY)
+            view.frame.origin = CGPoint(x: transformX, y: transformY)
+            //view.transform = CGAffineTransform(translationX: transformX, y: transformY)
         }) { value in
-            //print("Done")
             completion?(value)
         }
     }
