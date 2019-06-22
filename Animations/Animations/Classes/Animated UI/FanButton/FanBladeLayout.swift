@@ -28,5 +28,9 @@ struct FanBladeLayout {
         topLC?.isActive = true
         bottomLC?.isActive = true
     }
+    
+    func disableRightConstraings(){
+        rightLC?.isActive = true
+    }
 
 }

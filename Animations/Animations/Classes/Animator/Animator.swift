@@ -39,27 +39,22 @@ class Animator: NSObject {
     }
     
     func addSpringAnimation(fromDirection direction: ElasticDirection, withDeflection deflection: CGFloat, completion: ((Bool) -> Void)? = nil) {
-        var transformX: CGFloat = 0.0
+        let transformX: CGFloat = 10.0
         var transformY: CGFloat = 0.0
         switch direction {
         case .top:
             transformY += deflection
-            transformX += 10
         case .bottom:
             transformY += deflection
-            transformX += 10
         case .left:
-            transformX += deflection
-            transformY += 10
+            transformY += deflection
         case .right:
-            transformX += deflection
-            transformY += 10
+            transformY += deflection
         }
         
         UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
             guard let view = self.childView else { return }
             view.frame.origin = CGPoint(x: transformX, y: transformY)
-            //view.transform = CGAffineTransform(translationX: transformX, y: transformY)
         }) { value in
             completion?(value)
         }

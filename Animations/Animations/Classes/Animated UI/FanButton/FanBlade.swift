@@ -54,27 +54,36 @@ class FanBlade: UIButton {
         parentView.layoutSubviews()
         let animator = Animator(forView: self)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            self.bladeLayout.disableAllConstraints()
-            animator.addSpringAnimation(fromDirection: self.direction, withDeflection: 10, completion: { value in
-                
+//            self.bladeLayout.disableAllConstraints()
+            if self.direction == .bottom {
+                self.bladeLayout.bottomLC?.isActive = false
+            } else if self.direction == .right {
+                self.bladeLayout.rightLC?.isActive = false
+            }
+            var deflection: CGFloat = 10.0
+            if let bottomBlade = self.bottomBlade {
+                deflection = bottomBlade.frame.origin.y - 70
+                print(bottomBlade.frame.origin.y)
+                print(deflection)
+            }
+            animator.addSpringAnimation(fromDirection: self.direction, withDeflection: deflection, completion: { value in
                 if self.direction == .bottom {
                     self.bladeLayout.bottomLC?.constant = -10
-                    
+                    self.bladeLayout.bottomLC?.isActive = true
                 } else if self.direction == .right {
                     self.bladeLayout.rightLC?.constant = -10
-                    
+                    self.bladeLayout.rightLC?.isActive = true
                 }
-                self.bladeLayout.enableAllConstraints()
+                //self.bladeLayout.enableAllConstraints()
+                print("frame: \(self.frame.origin)")
             })
         })
-        
     }
     
     @objc func buttonAction(){
         guard let delegate = self.delegate else { return }
         delegate.fanBlade(didSelected: self)
     }
-    
     
     private func setSizeLayout(withConstant constant: CGFloat){
         self.translatesAutoresizingMaskIntoConstraints = false

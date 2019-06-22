@@ -28,6 +28,7 @@ class FanButton {
     fileprivate var parentView: UIView!
     fileprivate var bottomView: UIView!
     fileprivate var mainBlade: FanBlade!
+    fileprivate let time = 0.3
 
     init(onView view: UIView) {
         parentView = view
@@ -56,7 +57,7 @@ class FanButton {
     }
     
     private func addButton(withBottomBlade blade: FanBlade, fromDirection direction: ElasticDirection) -> FanBlade {
-        let blade = FanBlade(onView: mainView, withBottomBlade: blade, fromElasticDirection: .right)
+        let blade = FanBlade(onView: mainView, withBottomBlade: blade, fromElasticDirection: direction)
         blade.backgroundColor = .green
         blade.delegate = self
         blade.setupBlade()
@@ -75,13 +76,11 @@ class FanButton {
     
     private func handle(rootBlade blade: FanBlade) {
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            self.heightLC.constant += self.size
-            let blade = self.addButton(withBottomBlade: self.mainBlade, fromDirection: .right)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                self.heightLC.constant += self.size
-                let blade = self.addButton(withBottomBlade: blade, fromDirection: .right)
-            })
+        self.heightLC.constant += self.size * 3
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+            let blade1 = self.addButton(withBottomBlade: self.mainBlade, fromDirection: .right)
+            let blade2 = self.addButton(withBottomBlade: blade1, fromDirection: .right)
+            let blade3 = self.addButton(withBottomBlade: blade2, fromDirection: .right)
         })
     }
     
