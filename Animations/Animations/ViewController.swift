@@ -18,6 +18,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         arcAnim = ArcAnimation(animateForView: arcButton)
         fanButton = FanButton(onView: view)
+        fanButton.dataSource = self
+        fanButton.delegate = self
     }
 
     @IBAction func btcHandler(_ sender: UIButton) {
@@ -34,6 +36,18 @@ class ViewController: UIViewController {
     func deg2rad(_ number: Double) -> CGFloat {
         return CGFloat(number * .pi / 180)
     }
+    
+}
+
+extension ViewController: FanButtonDelegate, FanButtonDataSource {
+    func fanButton(_ fanButton: FanButton, didSelectBlade fanBlade: FanBlade) {
+        print("Clicked")
+    }
+    
+    func numberOfBlades(in fanButton: FanButton) -> Int {
+        return 4
+    }
+    
     
 }
 

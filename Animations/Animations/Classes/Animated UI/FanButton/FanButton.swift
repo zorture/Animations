@@ -76,11 +76,15 @@ class FanButton {
     
     private func handle(rootBlade blade: FanBlade) {
 
-        self.heightLC.constant += self.size * 3
+        let count = dataSource?.numberOfBlades(in: self) ?? 0
+        self.heightLC.constant += self.size * CGFloat(count)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-            let blade1 = self.addButton(withBottomBlade: self.mainBlade, fromDirection: .right)
-            let blade2 = self.addButton(withBottomBlade: blade1, fromDirection: .right)
-            let blade3 = self.addButton(withBottomBlade: blade2, fromDirection: .right)
+            
+            var blade = self.mainBlade
+            for _ in 0..<count {
+                let newBlade = self.addButton(withBottomBlade: blade!, fromDirection: .right)
+                blade = newBlade
+            }
         })
     }
     

@@ -74,8 +74,6 @@ class FanBlade: UIButton {
                     self.bladeLayout.rightLC?.constant = -10
                     self.bladeLayout.rightLC?.isActive = true
                 }
-                //self.bladeLayout.enableAllConstraints()
-                print("frame: \(self.frame.origin)")
             })
         })
     }
