@@ -40,8 +40,12 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: FanButtonDelegate, FanButtonDataSource {
+//    func fanButton(_ fanButton: FanButton, fanBladeForRowAt index: Int) -> FanBlade {
+//        //let fanBlade = FanBlade(
+//    }
+    
     func fanButton(_ fanButton: FanButton, didSelectBlade fanBlade: FanBlade) {
-        print("Clicked")
+        print("\(fanBlade.index) Clicked")
     }
     
     func numberOfBlades(in fanButton: FanButton) -> Int {

@@ -14,6 +14,7 @@ protocol FanButtonDelegate {
 
 protocol FanButtonDataSource {
     func numberOfBlades(in fanButton: FanButton) -> Int
+    //func fanButton(_ fanButton: FanButton, fanBladeForRowAt index: Int) -> FanBlade
 }
 
 class FanButton {
@@ -29,6 +30,7 @@ class FanButton {
     fileprivate var bottomView: UIView!
     fileprivate var mainBlade: FanBlade!
     fileprivate let time = 0.3
+    fileprivate var bladeIndexCount = 0
 
     init(onView view: UIView) {
         parentView = view
@@ -45,19 +47,20 @@ class FanButton {
     //common func to init our view
     private func setupMainView() {
         mainView.backgroundColor = .red
-        //mainView.clipsToBounds = true
+        mainView.clipsToBounds = true
         setSizeLayout(withConstant: size)
     }
     
     private func addRootButton(fromDirection direction: ElasticDirection) {
-        mainBlade = FanBlade(onView: mainView, ElasticDirection: direction)
+        mainBlade = FanBlade(onView: mainView, atIndex: bladeIndexCount)
         mainBlade.backgroundColor = .orange
+        mainBlade.direction = .bottom
         mainBlade.delegate = self
         mainBlade.setupBlade()
     }
     
-    private func addButton(withBottomBlade blade: FanBlade, fromDirection direction: ElasticDirection) -> FanBlade {
-        let blade = FanBlade(onView: mainView, withBottomBlade: blade, fromElasticDirection: direction)
+    private func addButton(withBottomBlade blade: FanBlade, atIndex index: Int) -> FanBlade {
+        let blade = FanBlade(onView: mainView, withBottomBlade: blade, atIndex: index)
         blade.backgroundColor = .green
         blade.delegate = self
         blade.setupBlade()
@@ -74,22 +77,23 @@ class FanButton {
         NSLayoutConstraint.activate([widthLC,heightLC,leftLC,bottomLC])
     }
     
-    private func handle(rootBlade blade: FanBlade) {
+    private func handle(rootBlade fanblade: FanBlade) {
 
         let count = dataSource?.numberOfBlades(in: self) ?? 0
         self.heightLC.constant += self.size * CGFloat(count)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
             
-            var blade = self.mainBlade
+            guard var blade = self.mainBlade else { return }
             for _ in 0..<count {
-                let newBlade = self.addButton(withBottomBlade: blade!, fromDirection: .right)
+                self.bladeIndexCount += 1
+                let newBlade = self.addButton(withBottomBlade: blade, atIndex: self.bladeIndexCount)
                 blade = newBlade
             }
         })
     }
     
-    private func handle(childBlade blade: FanBlade) {
-        
+    private func handle(childBlade fanblade: FanBlade) {
+        delegate?.fanButton(self, didSelectBlade: fanblade)
     }
     
 }
@@ -97,8 +101,11 @@ class FanButton {
 extension FanButton: FanBladeDelegate {
     
     func fanBlade(didSelected fanBlade: FanBlade) {
-        //fanBlade.type == BladeType.root ? handle(rootBlade: fanBlade) : handle(childBlade: fanBlade)
-        handle(rootBlade: fanBlade)
+        if fanBlade.index == 0 {
+             handle(rootBlade: fanBlade)
+        } else {
+            handle(childBlade: fanBlade)
+        }
     }
     
     func fanBlade(didPause fanBlade: FanBlade) {

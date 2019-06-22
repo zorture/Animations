@@ -20,21 +20,21 @@ class FanBlade: UIButton {
     var directionLC: NSLayoutConstraint!
     var distance: CGFloat = -60
     var delegate: FanBladeDelegate?
-    let direction: ElasticDirection!
+    var direction: ElasticDirection = .right
+    let index: Int!
     fileprivate let parentView: UIView!
     fileprivate var bottomBlade: FanBlade?
     fileprivate var bladeLayout = FanBladeLayout()
 
     
-    required init(onView view: UIView, ElasticDirection direction: ElasticDirection) {
-        self.direction = direction
+    required init(onView view: UIView, atIndex index: Int) {
         self.parentView = view
+        self.index = index
         super.init(frame: .zero)
-        
     }
     
-    convenience init(onView view: UIView, withBottomBlade blade: FanBlade, fromElasticDirection direction: ElasticDirection) {
-        self.init(onView: view, ElasticDirection: direction)
+    convenience init(onView view: UIView, withBottomBlade blade: FanBlade, atIndex index: Int) {
+        self.init(onView: view, atIndex: index)
         self.bottomBlade = blade
     }
     
@@ -45,16 +45,11 @@ class FanBlade: UIButton {
     
     func setupBlade() {
         parentView.addSubview(self)
-        
-        //backgroundColor = .orange
         self.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         setSizeLayout(withConstant: 50)
-        parentView.layoutSubviews()
         self.setOriginLayout(withDirection: self.direction, andConstant: -10)
-        parentView.layoutSubviews()
         let animator = Animator(forView: self)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//            self.bladeLayout.disableAllConstraints()
             if self.direction == .bottom {
                 self.bladeLayout.bottomLC?.isActive = false
             } else if self.direction == .right {
