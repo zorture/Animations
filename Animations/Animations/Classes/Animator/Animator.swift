@@ -11,7 +11,6 @@ import UIKit
 enum ElasticDirection {
     case left
     case right
-    case top
     case bottom
 }
 
@@ -42,8 +41,6 @@ class Animator: NSObject {
         let transformX: CGFloat = 10.0
         var transformY: CGFloat = 0.0
         switch direction {
-        case .top:
-            transformY += deflection
         case .bottom:
             transformY += deflection
         case .left:
@@ -52,7 +49,7 @@ class Animator: NSObject {
             transformY += deflection
         }
         
-        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
             guard let view = self.childView else { return }
             view.frame.origin = CGPoint(x: transformX, y: transformY)
         }) { value in

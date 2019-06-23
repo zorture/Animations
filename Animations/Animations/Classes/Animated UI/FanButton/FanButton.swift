@@ -51,7 +51,7 @@ class FanButton: UIView {
     
     fileprivate func setupFanButton() {
         backgroundColor = .red
-        clipsToBounds = true
+        //clipsToBounds = true
         setSizeLayout(withConstant: size)
         guard let blade = addButton(withBottomBlade: nil, atIndex: bladeIndexCount) else { return }
         bladeArray.append(blade)
@@ -61,7 +61,7 @@ class FanButton: UIView {
         
         guard let newBlade = dataSource?.fanButton(self, fanBladeForRowAt: bladeIndexCount) else { return .none }
         if let bottomBlade = blade {
-            newBlade.bottomBlade = bottomBlade
+            newBlade.adjacentBlade = bottomBlade
         }
         newBlade.delegate = self
         self.addSubview(newBlade)

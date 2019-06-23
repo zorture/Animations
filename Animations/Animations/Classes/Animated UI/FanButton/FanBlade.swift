@@ -22,7 +22,7 @@ class FanBlade: UIButton {
     var delegate: FanBladeDelegate?
     var direction: ElasticDirection = .right
     let index: Int!
-    var bottomBlade: FanBlade?
+    var adjacentBlade: FanBlade?
     fileprivate var parentView: UIView!
     fileprivate var bladeLayout = FanBladeLayout()
 
@@ -31,9 +31,9 @@ class FanBlade: UIButton {
         super.init(frame: .zero)
     }
     
-    convenience init(withBottomBlade blade: FanBlade, atIndex index: Int) {
+    convenience init(withadjacentBlade blade: FanBlade, atIndex index: Int) {
         self.init(atIndex: index)
-        self.bottomBlade = blade
+        self.adjacentBlade = blade
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,14 +56,18 @@ class FanBlade: UIButton {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             //self.bladeLayout.disableAllConstraints()
             var deflection: CGFloat = 10.0
-            if let bottomBlade = self.bottomBlade {
-                deflection = bottomBlade.frame.origin.y - 70
+            if let adjacentBlade = self.adjacentBlade {
+                deflection = adjacentBlade.frame.origin.y - 70
             }
             animator.addSpringAnimation(fromDirection: self.direction, withDeflection: deflection, completion: { value in
                 if self.direction == .bottom {
-                    self.bladeLayout.bottomLC?.constant = -10
+                    if self.adjacentBlade == .none {
+                        self.bladeLayout.bottomLC?.constant = -10
+                    }
                 } else if self.direction == .right {
                     self.bladeLayout.rightLC?.constant = -10
+                } else if self.direction == .left {
+                    self.bladeLayout.leftLC?.constant = 10
                 }
                 //self.bladeLayout.enableAllConstraints()
             })
@@ -85,9 +89,6 @@ class FanBlade: UIButton {
     private func setOriginLayout(withDirection direction: ElasticDirection, andConstant constant: CGFloat){
         self.translatesAutoresizingMaskIntoConstraints = false
         switch direction {
-        case .top:
-            self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: constant).isActive = true
-            self.topAnchor.constraint(equalTo: parentView.topAnchor, constant: distance).isActive = true
         case .bottom:
             self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: constant).isActive = true
             bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: abs(distance))
@@ -95,8 +96,8 @@ class FanBlade: UIButton {
         case .left:
             bladeLayout.leftLC = self.leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: distance)
             bladeLayout.leftLC?.isActive = true
-            if let bottomBlade = self.bottomBlade {
-                bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: bottomBlade.topAnchor, constant: -20)
+            if let adjacentBlade = self.adjacentBlade {
+                bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: adjacentBlade.topAnchor, constant: -20)
             } else {
                 bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant)
             }
@@ -104,8 +105,8 @@ class FanBlade: UIButton {
         case .right:
             bladeLayout.rightLC = self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: abs(distance))
             bladeLayout.rightLC?.isActive = true
-            if let bottomBlade = self.bottomBlade {
-                bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: bottomBlade.topAnchor, constant: -20)
+            if let adjacentBlade = self.adjacentBlade {
+                bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: adjacentBlade.topAnchor, constant: -20)
             } else {
                 bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant)
             }

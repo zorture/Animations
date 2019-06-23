@@ -47,7 +47,7 @@ extension ViewController: FanButtonDelegate, FanButtonDataSource {
     func fanButton(_ fanButton: FanButton, fanBladeForRowAt index: Int) -> FanBlade {
         let blade = FanBlade(atIndex: index)
         if index == 0 {
-            blade.direction = .bottom
+            blade.direction = .right
             blade.backgroundColor = .orange
         } else {
             blade.direction = .left
@@ -57,7 +57,7 @@ extension ViewController: FanButtonDelegate, FanButtonDataSource {
     }
     
     func fanButton(_ fanButton: FanButton, didSelectBlade fanBlade: FanBlade) {
-        print("\(fanBlade.index) Clicked")
+        print("\(fanBlade.index!) Clicked")
     }
     
     func numberOfBlades(in fanButton: FanButton) -> Int {
