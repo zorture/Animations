@@ -20,21 +20,20 @@ class FanBlade: UIButton {
     var directionLC: NSLayoutConstraint!
     var distance: CGFloat = -60
     var delegate: FanBladeDelegate?
-    let direction: ElasticDirection!
-    fileprivate let parentView: UIView!
+    var direction: ElasticDirection = .right
+    let index: Int!
+    fileprivate var parentView: UIView!
     fileprivate var bottomBlade: FanBlade?
     fileprivate var bladeLayout = FanBladeLayout()
 
     
-    required init(onView view: UIView, ElasticDirection direction: ElasticDirection) {
-        self.direction = direction
-        self.parentView = view
+    required init(atIndex index: Int) {
+        self.index = index
         super.init(frame: .zero)
-        
     }
     
-    convenience init(onView view: UIView, withBottomBlade blade: FanBlade, fromElasticDirection direction: ElasticDirection) {
-        self.init(onView: view, ElasticDirection: direction)
+    convenience init(withBottomBlade blade: FanBlade, atIndex index: Int) {
+        self.init(atIndex: index)
         self.bottomBlade = blade
     }
     
@@ -43,38 +42,46 @@ class FanBlade: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupBlade() {
+    override func didMoveToSuperview() {
+        guard let superView = self.superview else { return }
+        parentView = superView
+        setupBlade()
+    }
+    
+    fileprivate func setupBlade() {
         parentView.addSubview(self)
-        
-        //backgroundColor = .orange
         self.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         setSizeLayout(withConstant: 50)
-        parentView.layoutSubviews()
         self.setOriginLayout(withDirection: self.direction, andConstant: -10)
-        parentView.layoutSubviews()
         let animator = Animator(forView: self)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            self.bladeLayout.disableAllConstraints()
-            animator.addSpringAnimation(fromDirection: self.direction, withDeflection: 10, completion: { value in
-                
+            if self.direction == .bottom {
+                self.bladeLayout.bottomLC?.isActive = false
+            } else if self.direction == .right {
+                self.bladeLayout.rightLC?.isActive = false
+            }
+            var deflection: CGFloat = 10.0
+            if let bottomBlade = self.bottomBlade {
+                deflection = bottomBlade.frame.origin.y - 70
+                print(bottomBlade.frame.origin.y)
+                print(deflection)
+            }
+            animator.addSpringAnimation(fromDirection: self.direction, withDeflection: deflection, completion: { value in
                 if self.direction == .bottom {
                     self.bladeLayout.bottomLC?.constant = -10
-                    
+                    self.bladeLayout.bottomLC?.isActive = true
                 } else if self.direction == .right {
                     self.bladeLayout.rightLC?.constant = -10
-                    
+                    self.bladeLayout.rightLC?.isActive = true
                 }
-                self.bladeLayout.enableAllConstraints()
             })
         })
-        
     }
     
     @objc func buttonAction(){
         guard let delegate = self.delegate else { return }
         delegate.fanBlade(didSelected: self)
     }
-    
     
     private func setSizeLayout(withConstant constant: CGFloat){
         self.translatesAutoresizingMaskIntoConstraints = false

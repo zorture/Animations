@@ -17,7 +17,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         arcAnim = ArcAnimation(animateForView: arcButton)
-        fanButton = FanButton(onView: view)
+        fanButton = FanButton(frame: .zero)
+        fanButton.dataSource = self
+        fanButton.delegate = self
+        view.addSubview(fanButton)
+        fanButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        fanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        
     }
 
     @IBAction func btcHandler(_ sender: UIButton) {
@@ -34,6 +40,22 @@ class ViewController: UIViewController {
     func deg2rad(_ number: Double) -> CGFloat {
         return CGFloat(number * .pi / 180)
     }
+    
+}
+
+extension ViewController: FanButtonDelegate, FanButtonDataSource {
+//    func fanButton(_ fanButton: FanButton, fanBladeForRowAt index: Int) -> FanBlade {
+//        //let fanBlade = FanBlade(
+//    }
+    
+    func fanButton(_ fanButton: FanButton, didSelectBlade fanBlade: FanBlade) {
+        print("\(fanBlade.index) Clicked")
+    }
+    
+    func numberOfBlades(in fanButton: FanButton) -> Int {
+        return 4
+    }
+    
     
 }
 
