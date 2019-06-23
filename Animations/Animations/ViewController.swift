@@ -62,7 +62,7 @@ extension ViewController: FanButtonDelegate, FanButtonDataSource {
             blade.direction = .right
             let img = UIImage(named: "google")
             blade.setImage(img, for: .normal)
-        } else if index == 4 {
+        } else {
             blade.direction = .right
             let img = UIImage(named: "twitter")
             blade.setImage(img, for: .normal)
