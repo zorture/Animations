@@ -79,7 +79,7 @@ class FanButton: UIView {
 
         let count = dataSource?.numberOfBlades(in: self) ?? 0
         self.heightLC.constant += self.size * CGFloat(count)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             
             guard var blade = self.bladeArray.first else { return }
             for _ in 0..<count {

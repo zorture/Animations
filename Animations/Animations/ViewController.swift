@@ -50,7 +50,7 @@ extension ViewController: FanButtonDelegate, FanButtonDataSource {
             blade.direction = .bottom
             blade.backgroundColor = .orange
         } else {
-            blade.direction = .right
+            blade.direction = .left
             blade.backgroundColor = .green
         }
         return blade

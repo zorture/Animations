@@ -54,25 +54,18 @@ class FanBlade: UIButton {
         self.setOriginLayout(withDirection: self.direction, andConstant: -10)
         let animator = Animator(forView: self)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            if self.direction == .bottom {
-                self.bladeLayout.bottomLC?.isActive = false
-            } else if self.direction == .right {
-                self.bladeLayout.rightLC?.isActive = false
-            }
+            //self.bladeLayout.disableAllConstraints()
             var deflection: CGFloat = 10.0
             if let bottomBlade = self.bottomBlade {
                 deflection = bottomBlade.frame.origin.y - 70
-                print(bottomBlade.frame.origin.y)
-                print(deflection)
             }
             animator.addSpringAnimation(fromDirection: self.direction, withDeflection: deflection, completion: { value in
                 if self.direction == .bottom {
                     self.bladeLayout.bottomLC?.constant = -10
-                    self.bladeLayout.bottomLC?.isActive = true
                 } else if self.direction == .right {
                     self.bladeLayout.rightLC?.constant = -10
-                    self.bladeLayout.rightLC?.isActive = true
                 }
+                //self.bladeLayout.enableAllConstraints()
             })
         })
     }
@@ -100,8 +93,14 @@ class FanBlade: UIButton {
             bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: abs(distance))
             bladeLayout.bottomLC?.isActive = true
         case .left:
-            self.leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: distance).isActive = true
-            self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant).isActive = true
+            bladeLayout.leftLC = self.leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: distance)
+            bladeLayout.leftLC?.isActive = true
+            if let bottomBlade = self.bottomBlade {
+                bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: bottomBlade.topAnchor, constant: -20)
+            } else {
+                bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant)
+            }
+            bladeLayout.bottomLC?.isActive = true
         case .right:
             bladeLayout.rightLC = self.rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: abs(distance))
             bladeLayout.rightLC?.isActive = true
@@ -111,7 +110,6 @@ class FanBlade: UIButton {
                 bladeLayout.bottomLC = self.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: constant)
             }
             bladeLayout.bottomLC?.isActive = true
-
         }
     }
     
