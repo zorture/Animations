@@ -18,9 +18,7 @@ protocol FanButtonDataSource {
 }
 
 class FanButton: UIView {
-    
-    
-    var bottomLC: NSLayoutConstraint!
+
     var heightLC: NSLayoutConstraint!
     let size: CGFloat = 70
     var dataSource: FanButtonDataSource? {

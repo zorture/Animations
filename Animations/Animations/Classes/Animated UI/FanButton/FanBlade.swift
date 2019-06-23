@@ -54,7 +54,6 @@ class FanBlade: UIButton {
         self.setOriginLayout(withDirection: self.direction, andConstant: -10)
         let animator = Animator(forView: self)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            //self.bladeLayout.disableAllConstraints()
             var deflection: CGFloat = 10.0
             if let adjacentBlade = self.adjacentBlade {
                 deflection = adjacentBlade.frame.origin.y - 70
@@ -69,7 +68,6 @@ class FanBlade: UIButton {
                 } else if self.direction == .left {
                     self.bladeLayout.leftLC?.constant = 10
                 }
-                //self.bladeLayout.enableAllConstraints()
             })
         })
     }
