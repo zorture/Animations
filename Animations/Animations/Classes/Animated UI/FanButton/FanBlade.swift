@@ -22,11 +22,10 @@ class FanBlade: UIButton {
     var delegate: FanBladeDelegate?
     var direction: ElasticDirection = .right
     let index: Int!
+    var bottomBlade: FanBlade?
     fileprivate var parentView: UIView!
-    fileprivate var bottomBlade: FanBlade?
     fileprivate var bladeLayout = FanBladeLayout()
 
-    
     required init(atIndex index: Int) {
         self.index = index
         super.init(frame: .zero)
