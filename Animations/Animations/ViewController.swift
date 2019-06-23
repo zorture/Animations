@@ -47,11 +47,25 @@ extension ViewController: FanButtonDelegate, FanButtonDataSource {
     func fanButton(_ fanButton: FanButton, fanBladeForRowAt index: Int) -> FanBlade {
         let blade = FanBlade(atIndex: index)
         if index == 0 {
+            blade.direction = .bottom
+            let img = UIImage(named: "pin")
+            blade.setImage(img, for: .normal)
+        } else if index == 1 {
             blade.direction = .right
-            blade.backgroundColor = .orange
-        } else {
-            blade.direction = .left
-            blade.backgroundColor = .green
+            let img = UIImage(named: "linkedin")
+            blade.setImage(img, for: .normal)
+        } else if index == 2 {
+            blade.direction = .right
+            let img = UIImage(named: "fb")
+            blade.setImage(img, for: .normal)
+        } else if index == 3 {
+            blade.direction = .right
+            let img = UIImage(named: "google")
+            blade.setImage(img, for: .normal)
+        } else if index == 4 {
+            blade.direction = .right
+            let img = UIImage(named: "twitter")
+            blade.setImage(img, for: .normal)
         }
         return blade
     }
@@ -61,7 +75,7 @@ extension ViewController: FanButtonDelegate, FanButtonDataSource {
     }
     
     func numberOfBlades(in fanButton: FanButton) -> Int {
-        return 4
+        return 5
     }
     
     

@@ -50,8 +50,7 @@ class FanButton: UIView {
     }
     
     fileprivate func setupFanButton() {
-        backgroundColor = .red
-        //clipsToBounds = true
+        clipsToBounds = true
         setSizeLayout(withConstant: size)
         guard let blade = addButton(withBottomBlade: nil, atIndex: bladeIndexCount) else { return }
         bladeArray.append(blade)
