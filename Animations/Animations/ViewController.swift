@@ -17,9 +17,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         arcAnim = ArcAnimation(animateForView: arcButton)
-        fanButton = FanButton(onView: view)
+        fanButton = FanButton(frame: .zero)
         fanButton.dataSource = self
         fanButton.delegate = self
+        view.addSubview(fanButton)
+        fanButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        fanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        
     }
 
     @IBAction func btcHandler(_ sender: UIButton) {

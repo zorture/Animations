@@ -17,64 +17,68 @@ protocol FanButtonDataSource {
     //func fanButton(_ fanButton: FanButton, fanBladeForRowAt index: Int) -> FanBlade
 }
 
-class FanButton {
+class FanButton: UIView {
     
     
     var bottomLC: NSLayoutConstraint!
     var heightLC: NSLayoutConstraint!
     let size: CGFloat = 70
-    var dataSource: FanButtonDataSource?
-    var delegate: FanButtonDelegate?
-    fileprivate var mainView: UIView!
-    fileprivate var parentView: UIView!
-    fileprivate var bottomView: UIView!
+    var dataSource: FanButtonDataSource? {
+        didSet {
+           print("Did Set DataSource")
+        }
+    }
+    var delegate: FanButtonDelegate? {
+        didSet {
+           print("Did Set Delegate")
+        }
+    }
+
     fileprivate var mainBlade: FanBlade!
     fileprivate let time = 0.3
     fileprivate var bladeIndexCount = 0
 
-    init(onView view: UIView) {
-        parentView = view
-        mainView = UIView.init(frame: .zero)
-        parentView.addSubview(mainView)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func didMoveToSuperview() {
         setupFanButton()
     }
-
-    private func setupFanButton() {
-        setupMainView()
+    
+    fileprivate func setupFanButton() {
+        backgroundColor = .red
+        //clipsToBounds = true
+        setSizeLayout(withConstant: size)
         addRootButton(fromDirection: .bottom)
     }
-    
-    //common func to init our view
-    private func setupMainView() {
-        mainView.backgroundColor = .red
-        mainView.clipsToBounds = true
-        setSizeLayout(withConstant: size)
-    }
+
     
     private func addRootButton(fromDirection direction: ElasticDirection) {
-        mainBlade = FanBlade(onView: mainView, atIndex: bladeIndexCount)
+        mainBlade = FanBlade(atIndex: bladeIndexCount)
         mainBlade.backgroundColor = .orange
         mainBlade.direction = .bottom
         mainBlade.delegate = self
-        mainBlade.setupBlade()
+        self.addSubview(mainBlade)
     }
     
     private func addButton(withBottomBlade blade: FanBlade, atIndex index: Int) -> FanBlade {
-        let blade = FanBlade(onView: mainView, withBottomBlade: blade, atIndex: index)
+        let blade = FanBlade(withBottomBlade: blade, atIndex: index)
         blade.backgroundColor = .green
         blade.delegate = self
-        blade.setupBlade()
+        self.addSubview(blade)
         return blade
     }
     
     private func setSizeLayout(withConstant constant: CGFloat){
-        mainView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let widthLC = mainView.widthAnchor.constraint(equalToConstant: constant)
-        heightLC = mainView.heightAnchor.constraint(equalToConstant: constant)
-        let leftLC = mainView.leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: 10)
-        let bottomLC = mainView.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: -50)
-        NSLayoutConstraint.activate([widthLC,heightLC,leftLC,bottomLC])
+        translatesAutoresizingMaskIntoConstraints = false
+        let widthLC = widthAnchor.constraint(equalToConstant: constant)
+        heightLC = heightAnchor.constraint(equalToConstant: constant)
+        NSLayoutConstraint.activate([widthLC,heightLC])
     }
     
     private func handle(rootBlade fanblade: FanBlade) {
@@ -95,7 +99,6 @@ class FanButton {
     private func handle(childBlade fanblade: FanBlade) {
         delegate?.fanButton(self, didSelectBlade: fanblade)
     }
-    
 }
 
 extension FanButton: FanBladeDelegate {

@@ -22,19 +22,18 @@ class FanBlade: UIButton {
     var delegate: FanBladeDelegate?
     var direction: ElasticDirection = .right
     let index: Int!
-    fileprivate let parentView: UIView!
+    fileprivate var parentView: UIView!
     fileprivate var bottomBlade: FanBlade?
     fileprivate var bladeLayout = FanBladeLayout()
 
     
-    required init(onView view: UIView, atIndex index: Int) {
-        self.parentView = view
+    required init(atIndex index: Int) {
         self.index = index
         super.init(frame: .zero)
     }
     
-    convenience init(onView view: UIView, withBottomBlade blade: FanBlade, atIndex index: Int) {
-        self.init(onView: view, atIndex: index)
+    convenience init(withBottomBlade blade: FanBlade, atIndex index: Int) {
+        self.init(atIndex: index)
         self.bottomBlade = blade
     }
     
@@ -43,7 +42,13 @@ class FanBlade: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupBlade() {
+    override func didMoveToSuperview() {
+        guard let superView = self.superview else { return }
+        parentView = superView
+        setupBlade()
+    }
+    
+    fileprivate func setupBlade() {
         parentView.addSubview(self)
         self.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         setSizeLayout(withConstant: 50)
